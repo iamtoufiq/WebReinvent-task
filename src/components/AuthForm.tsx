@@ -6,12 +6,13 @@ import Button from "./Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import useApiCall from "../hooks/usePost";
 
 const AuthForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, apiCall } = useApiCall();
 
   const {
     register,
@@ -27,64 +28,25 @@ const AuthForm = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setIsLoading(true);
-    console.log(data);
     try {
       if (location?.pathname !== "/signin") {
         const registrationData = {
           email: data?.email,
           password: data?.password,
         };
-        const response = await fetch("https://reqres.in/api/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(registrationData),
-        });
-
-        if (!response.ok) {
-          const responseBody = await response.json();
-          console.error("Registration failed:", responseBody.error);
-          toast.error(responseBody?.error);
-        } else {
-          const responseData = await response.json();
-          toast.success("Registration successful!");
-          navigate("/signin");
-        }
+        apiCall("/register", registrationData, "Registration successful!");
       }
 
       if (location?.pathname === "/signin") {
-        console.log("this is signin");
-        // Implement your sign-in logic here
-        const registrationData = {
+        const signInData = {
           email: data?.email,
           password: data?.password,
         };
-        const response = await fetch("https://reqres.in/api/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(registrationData),
-        });
-
-        if (!response.ok) {
-          const responseBody = await response.json();
-          toast.error(responseBody?.error);
-        } else {
-          const responseData = await response.json();
-          toast.success("Login successful!");
-          sessionStorage.setItem("token", responseData.token);
-
-          navigate("/");
-        }
+        apiCall("/login", signInData, "Login successful!");
       }
     } catch (error) {
-      // Handle error, e.g., show a toast notification
-      toast.error("An error occurred during submission.");
+      toast.error("An error occurred during API call.");
     } finally {
-      setIsLoading(false);
       reset();
     }
   };

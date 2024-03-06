@@ -1,41 +1,68 @@
-// usePostRequest.ts
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate, useLocation } from "react-router-dom";
 
-interface UsePostRequestOptions {
-  url: string;
-  body: object;
-  options?: RequestInit;
+interface ApiResponse {
+  error?: string;
+  token?: string;
 }
 
-const usePostRequest = (options: UsePostRequestOptions) => {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+interface UseApiCallProps {
+  isLoading: boolean;
+  apiCall: (
+    url: string,
+    data: Record<string, any>,
+    successMessage: string
+  ) => Promise<void>;
+}
 
-  const postRequest = async (options: UsePostRequestOptions) => {
+const useApiCall = (): UseApiCallProps => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+  const apiUrl = process.env.REACT_APP_BASE_URL || "";
+  const apiCall = async (
+    endpoint: string,
+    data: Record<string, any>,
+    successMessage: string
+  ) => {
+    const url = `${apiUrl}${endpoint}`;
     setIsLoading(true);
     try {
-      const response = await fetch(options.url, {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(options.body),
-        ...options.options,
+        body: JSON.stringify(data),
       });
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const responseBody: ApiResponse = await response.json();
+
+        setTimeout(() => {
+          toast.error(
+            `Try this. Email: eve.holt@reqres.in & Password: cityslicka`
+          );
+        }, 500);
+        toast.error(responseBody?.error!);
+      } else {
+        const responseData: ApiResponse = await response.json();
+        toast.success(successMessage);
+        if (location?.pathname !== "/signin") {
+          navigate("/signin");
+        } else {
+          sessionStorage.setItem("token", responseData.token!);
+          navigate("/");
+        }
       }
-      const data = await response.json();
-      setData(data);
     } catch (error) {
-      // setError(error);
+      toast.error("An error occurred during API call.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { data, error, isLoading, postRequest };
+  return { isLoading, apiCall };
 };
 
-export default usePostRequest;
+export default useApiCall;

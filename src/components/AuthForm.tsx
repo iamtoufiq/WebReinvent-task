@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import AuthSocialButton from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import Input from "./Input";
@@ -51,11 +51,11 @@ const AuthForm = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (session?.status === "authenticated") {
-  //     router.push("/users");
-  //   }
-  // }, [session?.status, router]);
+  useEffect(() => {
+    if (sessionStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, [navigate]);
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">

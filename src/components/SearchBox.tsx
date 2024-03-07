@@ -16,7 +16,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   const navigate = useNavigate();
   return (
     <div className="flex  items-center gap-4 flex-col lg:flex-row my-6 justify-center mx-auto">
-      <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900 min-w-fit order-1">
+      <h2 className="text-center text-3xl font-bold tracking-tight text-gray-800 min-w-fit order-1">
         User Management Dashboard
       </h2>
 
@@ -30,7 +30,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         />
         {!!queries && (
           <span
-            className="absolute right-0 pr-3 cursor-pointer"
+            className="absolute right-0 pr-3 cursor-pointer text-[#b91c1c]"
             onClick={clearSearch}
           >
             <RxCross2 size={24} />

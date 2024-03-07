@@ -56,7 +56,7 @@ const DashBoard = () => {
         clearSearch={clearSearch}
         queries={queries}
       />
-      {/* <DashBoardData data={filteredData} /> */}
+
       <DashBoardData
         data={filteredData}
         setShowModal={setShowModal}

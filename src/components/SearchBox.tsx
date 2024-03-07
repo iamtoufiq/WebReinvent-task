@@ -15,12 +15,12 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <div className="flex  items-center gap-4 flex-col lg:flex-row my-6 justify-center">
+    <div className="flex  items-center gap-4 flex-col lg:flex-row my-6 justify-center mx-auto">
       <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900 min-w-fit order-1">
         User Management Dashboard
       </h2>
 
-      <div className="relative flex items-center border w-full h-fit order-3 lg:order-2">
+      <div className="relative flex items-center border w-full md:w-[40%] h-fit order-3 lg:order-2">
         <input
           type="text"
           onChange={handleSearch}

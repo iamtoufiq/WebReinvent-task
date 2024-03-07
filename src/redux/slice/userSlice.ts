@@ -1,8 +1,4 @@
-// src/features/user/userSlice.ts
-
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-
-// Define the User Data Type
 interface User {
   id: number;
   email: string;
@@ -13,12 +9,11 @@ interface UserList {
   data: User[];
 }
 
-// Define the state type
 interface UserState {
   userData: UserList | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
-  searchQuery: string; // To keep track of the current search query
+  searchQuery: string;
 }
 
 // Define the initial state
@@ -33,7 +28,9 @@ const initialState: UserState = {
 export const fetchUserData = createAsyncThunk(
   "user/fetchUserData",
   async () => {
-    const response = await fetch("https://reqres.in/api/users");
+    const apiUrl = process.env.REACT_APP_BASE_URL || "";
+    const url = `${apiUrl}${`/users`}`;
+    const response = await fetch(url);
     const data: UserList = await response.json();
     return data;
   }

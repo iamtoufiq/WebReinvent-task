@@ -4,7 +4,7 @@ const SET_USER_DATA = "SET_USER_DATA";
 
 interface SetUserDataAction {
   type: typeof SET_USER_DATA;
-  payload: any; // Replace 'any' with the actual type of user data
+  payload: any;
 }
 
 // Action creator to set the user data
@@ -17,8 +17,9 @@ export const setUserData = (userData: any): SetUserDataAction => ({
 export const fetchData = () => {
   return async (dispatch: Dispatch<SetUserDataAction>) => {
     try {
-      // Simulate an API call
-      const response = await fetch("https://reqres.in/api/users");
+      const apiUrl = process.env.REACT_APP_BASE_URL || "";
+      const url = `${apiUrl}${`/users`}`;
+      const response = await fetch(url);
       const data = await response.json();
 
       // Dispatch the action with the fetched data

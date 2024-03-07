@@ -1,5 +1,7 @@
 import { ChangeEvent } from "react";
 import { RxCross2 } from "react-icons/rx";
+import Button from "./Button";
+import { useNavigate } from "react-router-dom";
 interface SearchBoxProps {
   handleSearch: (event: ChangeEvent<HTMLInputElement>) => void;
   clearSearch: () => void;
@@ -11,13 +13,14 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   clearSearch,
   queries,
 }) => {
+  const navigate = useNavigate();
   return (
     <div className="flex  items-center gap-4 flex-col lg:flex-row my-6 justify-center">
-      <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900 min-w-fit">
+      <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900 min-w-fit order-1">
         User Management Dashboard
       </h2>
 
-      <div className="relative flex items-center border w-full h-fit">
+      <div className="relative flex items-center border w-full h-fit order-3 lg:order-2">
         <input
           type="text"
           onChange={handleSearch}
@@ -34,6 +37,17 @@ const SearchBox: React.FC<SearchBoxProps> = ({
           </span>
         )}
       </div>
+
+      <span className="order-2 lg:order-3">
+        <Button
+          onClick={() => {
+            sessionStorage.removeItem("token");
+            navigate("/signin");
+          }}
+        >
+          Logout
+        </Button>
+      </span>
     </div>
   );
 };

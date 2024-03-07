@@ -6,9 +6,15 @@ interface DashBoardDataProps {
     last_name: string;
     email: string;
   }>;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedId: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const DashBoardData: React.FC<DashBoardDataProps> = ({ data }) => {
+const DashBoardData: React.FC<DashBoardDataProps> = ({
+  data,
+  setShowModal,
+  setSelectedId,
+}) => {
   return (
     <div className="relative overflow-x-auto ">
       {!data?.length ? (
@@ -34,7 +40,14 @@ const DashBoardData: React.FC<DashBoardDataProps> = ({ data }) => {
             {!!data?.length &&
               data.map((value: any) => {
                 return (
-                  <tr className="bg-white border-b" key={value.id}>
+                  <tr
+                    className="bg-white border-b cursor-pointer"
+                    key={value.id}
+                    onClick={() => {
+                      setShowModal(true);
+                      setSelectedId(value.id);
+                    }}
+                  >
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900  "
@@ -47,7 +60,6 @@ const DashBoardData: React.FC<DashBoardDataProps> = ({ data }) => {
                     </th>
                     <td className="px-6 py-4">{`${value.first_name} ${value.last_name}`}</td>
                     <td className="px-6 py-4">{value.email}</td>
-                    {/* <td className="px-6 py-4">$2999</td> */}
                   </tr>
                 );
               })}

@@ -4,21 +4,22 @@ import { useEffect, useState } from "react";
 import { fetchUserData } from "../redux/slice/userSlice";
 import { AppDispatch } from "../redux/store";
 import SearchBox from "../components/SearchBox";
+import Modal from "../components/Modal";
 
 const DashBoard = () => {
   const [queries, setQueries] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [selectedId, setSelectedId] = useState(1);
   const dispatch = useDispatch<AppDispatch>();
   const { data: originalData } = useSelector(
     (state: any) => state?.user?.userData || []
   );
 
-  const debouncedSearch = debounce((query: string) => {
-    setQueries(query);
-  }, 200);
-
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
-    debouncedSearch(query);
+
+    console.log(query);
+    setQueries(query);
   };
 
   const filterData = () => {
@@ -55,19 +56,20 @@ const DashBoard = () => {
         clearSearch={clearSearch}
         queries={queries}
       />
-      <DashBoardData data={filteredData} />
+      {/* <DashBoardData data={filteredData} /> */}
+      <DashBoardData
+        data={filteredData}
+        setShowModal={setShowModal}
+        setSelectedId={setSelectedId}
+      />
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        selectedId={selectedId}
+        data={filteredData}
+      />
     </div>
   );
 };
-
-function debounce(func: Function, delay: number) {
-  let timeoutId: NodeJS.Timeout;
-  return function (this: any, ...args: any[]) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      func.apply(this, args);
-    }, 0);
-  };
-}
 
 export default DashBoard;

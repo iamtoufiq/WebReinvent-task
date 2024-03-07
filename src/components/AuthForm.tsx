@@ -34,6 +34,7 @@ const AuthForm = () => {
           email: data?.email,
           password: data?.password,
         };
+
         apiCall("/register", registrationData, "Registration successful!");
       }
 

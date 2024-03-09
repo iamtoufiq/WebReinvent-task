@@ -31,7 +31,6 @@ const useApiCall = (): UseApiCallProps => {
     const url = `${apiUrl}${endpoint}`;
     setIsLoading(true);
     try {
-      console.log("url", apiUrl);
       const response = await fetch(url, {
         method: "POST",
         headers: {

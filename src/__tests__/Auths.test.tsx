@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter, Route } from "react-router-dom";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { RequiresAuth } from "../RequiresAuth";
 
 // Mocking sessionStorage
@@ -34,11 +34,16 @@ describe("RequiresAuth", () => {
     sessionStorage.setItem("token", "QpwL5tke4Pnpja7X4");
     render(
       <MemoryRouter initialEntries={["/"]}>
-        <Route path="/">
-          <RequiresAuth>
-            <TestComponent />
-          </RequiresAuth>
-        </Route>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <RequiresAuth>
+                <TestComponent />
+              </RequiresAuth>
+            }
+          />
+        </Routes>
       </MemoryRouter>
     );
 
@@ -48,14 +53,17 @@ describe("RequiresAuth", () => {
   test("redirects to /signin when token is not present in sessionStorage", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
-        <Route path="/">
-          <RequiresAuth>
-            <TestComponent />
-          </RequiresAuth>
-        </Route>
-        <Route path="/signin">
-          <div>Sign In</div>
-        </Route>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <RequiresAuth>
+                <TestComponent />
+              </RequiresAuth>
+            }
+          />
+          <Route path="/signin" element={<div>Sign In</div>} />
+        </Routes>
       </MemoryRouter>
     );
 

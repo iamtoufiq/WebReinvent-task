@@ -1,15 +1,12 @@
-// src/actions/dataActions.ts
-
 import { Dispatch } from "redux";
 import {
   fetchDataStart,
   fetchDataSuccess,
   fetchDataFailure,
 } from "../reducers/dataReducer";
-import { AppThunk } from "../store"; // Import the AppThunk type
+import { AppThunk } from "../store";
 import { RootState } from "../store";
 
-// Use ThunkDispatch with the correct action type
 export const fetchData = (): AppThunk<Promise<void>> => {
   return async (dispatch: Dispatch, getState: () => RootState) => {
     try {
@@ -26,5 +23,4 @@ export const fetchData = (): AppThunk<Promise<void>> => {
   };
 };
 
-// Define the FetchDataAction type
 export type FetchDataAction = ReturnType<typeof fetchData>;

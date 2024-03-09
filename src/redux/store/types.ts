@@ -1,5 +1,3 @@
-// src/types.ts (or any appropriate location)
-
 export interface UserData {
   id: number;
   email: string;

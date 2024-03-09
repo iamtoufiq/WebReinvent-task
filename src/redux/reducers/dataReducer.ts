@@ -1,5 +1,3 @@
-// src/reducers/dataReducer.ts
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserData } from "../store/types";
 

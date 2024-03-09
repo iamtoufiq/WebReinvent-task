@@ -1,13 +1,5 @@
-// src/store/index.ts
-
-import {
-  configureStore,
-  ThunkAction,
-  Action,
-  Dispatch,
-} from "@reduxjs/toolkit";
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import dataReducer from "../reducers/dataReducer";
-import { fetchData, FetchDataAction } from "../actions/dataActions";
 
 const store = configureStore({
   reducer: {
@@ -17,7 +9,6 @@ const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 
-// Refine the AppThunk type to use ThunkDispatch with the correct action type
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
